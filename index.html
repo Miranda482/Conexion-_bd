@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conexión Control Escolar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f6f9;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #0d6efd;
+            color: white;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #0b5ed7;
+        }
+        #status {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .success { color: #198754; }
+        .error { color: #dc3545; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Verificar Conexión</h2>
+        <p><strong>Base de datos:</strong>de alexytocode</p>
+        <button onclick="verificarConexion()">Probar Conexión</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        async function verificarConexion() {
+            const statusDiv = document.getElementById("status");
+            statusDiv.textContent = "Conectando a la base de datos...";
+            statusDiv.className = "";
+
+            try {
+                const response = await fetch("/api/check-db");
+                const data = await response.json();
+
+                statusDiv.textContent = data.message;
+                statusDiv.className = data.success ? "success" : "error";
+            } catch (error) {
+                statusDiv.textContent = "Error al comunicarse con el servidor app.py";
+                statusDiv.className = "error";
+            }
+        }
+    </script>
+
+</body>
+</html>
